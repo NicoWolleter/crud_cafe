@@ -9,7 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="../rutas/productos.php">Gestión de Inventario</a>
+                    <a class="nav-link" href="./rutas/productos.php">Gestión de Inventario</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../rutas/proveedores.php">Gestión de Proveedores</a>
