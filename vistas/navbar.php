@@ -1,4 +1,5 @@
 <!-- Barra de navegación -->
+<?php include_once "../modelo/configs.php" ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="../main.php">Inicio</a>
@@ -9,16 +10,18 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/crud_cafe/rutas/productos.php">Gestión de Inventario</a>
+                    <a class="nav-link" href="<?php echo $base_path . '/rutas/productos.php'; ?>">Gestión de
+                        Inventario</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/crud_cafe/rutas/proveedores.php">Gestión de Proveedores</a>
+                    <a class="nav-link" href="<?php echo $base_path . '/rutas/proveedores.php'; ?>">Gestión de
+                        Inventario</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/crud_cafe/rutas/ventas.php">Ventas</a>
+                    <a class="nav-link" href="<?php echo $base_path . '/rutas/ventas.php ' ?>">Ventas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/crud_cafe/rutas/registros.php">Ventas registradas</a>
+                    <a class="nav-link" href="<?php echo $base_path . '/rutas/registros.php ' ?>">Ventas registradas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Estadísticas</a>
