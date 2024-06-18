@@ -50,7 +50,6 @@
 
                     </tbody>
                 </table>
-                <buttonbutton></button>
             </div>
         </div>
 
@@ -66,12 +65,15 @@
     <!-- Agrega DataTables -->
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script>
+        <?php
+        include "../configs.php";
+        ?>
         const url = '<?php echo $url ?>';
         const base_path = '<?php echo $base_path ?>';
         console.log(url);
         console.log(base_path);
 
-        $(document).ready(function () {
+        const OnReady = () => {
             const tabla = $('#tablaProductos').DataTable({
                 "pagingType": "simple_numbers", // Muestra solo los números de paginación
                 "pageLength": 5 // Establece la cantidad máxima de elementos por página
@@ -128,11 +130,48 @@
             label.append(" elementos")
 
             // Agrega el modal de registro de productos, cargamos desde el php
-            $("#agregarProducto").click(function () {
-                $("#container").load("../vistas/modal.php");
-            });
+            // $("#agregarProducto").click(function () {
+            //     $("#container").load("../vistas/modal.php");
+            // });
             // Agrega los elementos de la tabla a la tabla de registro
 
+        }
+
+        $(document).ready(OnReady);
+
+        $("#boton_registro").ready(function () {
+            console.log("ready")
+        });
+
+        $("#boton_registro").click(async (e) => {
+            e.preventDefault();
+            console.log("click")
+            try {
+                console.log("try")
+                let response = await fetch([url, base_path, 'controlador/registro_productos.php'].join('/'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    //TODO Esto hay que revisarlo. Estos valores se sacan desde el modal.
+                    body: JSON.stringify({
+                        producto: $("#producto").val(),
+                        proveedor: $("#proveedor").val(),
+                        precio_adq: $("#precio_adq").val(),
+                        precio_venta: $("#precio_venta").val(),
+                        fecha_ingreso: $("#fecha_ingreso").val(),
+                        fecha_caducidad: $("#fecha_caducidad").val(),
+                        categoria: $("#categoria").val(),
+                        cantidad: $("#cantidad").val(),
+                        codigo_barra: $("#codigo_barra").val()
+                    })
+                });
+                let data = await response.text();
+                console.log(data);
+            } catch (error) {
+                console.log("Error al registrar producto")
+                alert("Error al registrar producto")
+            }
         });
     </script>
 </body>

@@ -8,10 +8,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <!-- formulario de registro de productos -->
-                        <form method="POST">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- formulario de registro de productos -->
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Nombre del producto</label>
                                 <input type="text" class="form-control" name="producto">
@@ -33,34 +33,33 @@
                                 <input type="number" class="form-control" name="precio_venta">
                             </div>
 
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Fecha de ingreso</label>
+                                <input type="date" class="form-control" name="fecha_ingreso">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Fecha de caducidad</label>
+                                <input type="date" class="form-control" name="fecha_caducidad">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Cantidad</label>
+                                <input type="number" class="form-control" name="cantidad">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Codigo de barra</label>
+                                <input type="number" class="form-control" name="codigo_barra">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Fecha de ingreso</label>
-                            <input type="date" class="form-control" name="fecha_ingreso">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Fecha de caducidad</label>
-                            <input type="date" class="form-control" name="fecha_caducidad">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Cantidad</label>
-                            <input type="number" class="form-control" name="cantidad">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Codigo de barra</label>
-                            <input type="number" class="form-control" name="codigo_barra">
-                        </div>
-
-                        </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" name="boton_registro" value="ok"
+                            id="boton_registro">Ingresar</button>
                     </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" name="boton_registro" value="ok">Ingresar</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
