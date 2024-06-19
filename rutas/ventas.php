@@ -9,15 +9,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-        
 
-    </head>
-    <?php
-    include "../vistas/navbar.php";
-    include "../controlador/obtener_productos.php";
-    ?>
+
+</head>
+<?php
+include "../vistas/navbar.php";
+// include "../controlador/obtener_productos.php";
+?>
+
 <body>
-   
+
     <div class="container-fluid">
         <!-- Select para mostrar los productos -->
         <div class="row gap-4 p-4">
@@ -29,14 +30,14 @@
                     <div class="mb-3">
                         <label for="select_productos" class="form-label">Producto</label>
                         <select class="form-select" name="select_productos" id="select_productos">
-                            <?php
+                            <!-- <?php
                             // Obtener los productos
                             $productos = obtenerProductos();
                             // Iterar sobre los productos y agregar opciones al select
                             foreach ($productos as $producto) {
                                 echo "<option value='" . json_encode($producto) . "'>{$producto['producto']}</option>";
                             }
-                            ?>
+                            ?> -->
                         </select>
                     </div>
                     <!-- Divider -->
@@ -100,6 +101,8 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
                 crossorigin="anonymous"></script>
             <script>
+                const url = '<?php echo $url ?>';
+                console.log(url);
                 // Obtener los elementos del formulario
                 const select = document.getElementById('select_productos');
                 const cantidadInput = document.getElementById('cantidad');
@@ -117,6 +120,21 @@
                     document.getElementById('total_pagar').textContent = total * parseInt(document.getElementById('iva').textContent) / 100 + total;
                     document.getElementById('registrar_venta').disabled = productos.length === 0;
                 };
+                // Obtenemos los productos del servidor
+                fetch('localhost/crud_cafe/controlador/obtener_productos.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Iteramos sobre los productos y los agregamos al select
+                        data.forEach(producto => {
+                            const option = document.createElement('option');
+                            option.value = producto.id_producto;
+                            option.textContent = producto.producto;
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
 
                 // Agregar evento al botón "Agregar Producto"
                 agregarProductoBtn.addEventListener('click', function () {

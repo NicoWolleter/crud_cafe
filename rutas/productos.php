@@ -15,7 +15,6 @@
 <body>
     <!-- Barra de navegación -->
     <?php
-    include "../modelo/conexion.php";
     include "../vistas/navbar.php";
     ?>
 
@@ -66,16 +65,21 @@
     <!-- Agrega DataTables -->
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script>
+        <?php
+        include "../configs.php";
+        ?>
         const url = '<?php echo $url ?>';
+        const base_path = '<?php echo $base_path ?>';
         console.log(url);
+        console.log(base_path);
 
-        $(document).ready(function () {
-            let tabla = $('#tablaProductos').DataTable({
+        const OnReady = () => {
+            const tabla = $('#tablaProductos').DataTable({
                 "pagingType": "simple_numbers", // Muestra solo los números de paginación
                 "pageLength": 5 // Establece la cantidad máxima de elementos por página
             });
             // Obtenemos los productos
-            fetch(url + '/controlador/obtener_productos.php',
+            fetch([url, base_path, 'controlador/obtener_productos.php'].join('/'),
                 {
                     method: 'GET',
                     headers: {
@@ -90,34 +94,34 @@
                 .then(data => {
                     // Imprimimos los productos en consola
                     console.log(data);
-                    // Agregamos los productos a la tabla
-                    data.forEach(producto => {
-                        tabla.data().clear();
-                        $('#tablaProductos tbody').append(`
-                            <tr>
-                                <td>${producto.id_producto}</td>
-                                <td>${producto.producto}</td>
-                                <td>${producto.proveedor}</td>
-                                <td>${producto.precio_adq}</td>
-                                <td>${producto.precio_venta}</td>
-                                <td>${producto.fecha_ingreso}</td>
-                                <td>${producto.fecha_caducidad}</td>
-                                <td>${producto.categoria}</td>
-                                <td>${producto.cantidad}</td>
-                                <td>${producto.codigo_barra}</td>
-                                <td>${producto.productos_vendidos}</td>
-                                <td class="d-flex flex-column align-items-end">
-                                    <button id="edit" value="${producto.id_producto}" type="button" class="btn btn-warning" style="width:54px"><i class="fa-solid fa-user-pen"></i></button>
-                                    <button id="delete" value="${producto.id_producto}" type="button" class="btn btn-danger" style="width:54px"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `);
+                    let transformedData = data.map(producto => {
+                        return [
+                            producto.id_producto,
+                            producto.producto,
+                            producto.proveedor,
+                            producto.precio_adq,
+                            producto.precio_venta,
+                            producto.fecha_ingreso,
+                            producto.fecha_caducidad,
+                            producto.categoria,
+                            producto.cantidad,
+                            producto.codigo_barra,
+                            producto.productos_vendidos,
+                            `<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="console.log(${producto.id_producto})">
+                                    <i class="fas fa-trash-alt"></i>
+                            </button>`
+                        ];
                     });
+                    tabla.data().clear();
+                    tabla.rows.add(transformedData);
+                    tabla.columns.adjust().draw();
                 })
                 .catch(error => console.error(error));
             // Inicializa la tabla con DataTables
 
-            tabla.
             let select = $("#tablaProductos_length").find("select")
             select.prepend('<option value="5">5</option>');
             let label = $("#tablaProductos_length").find("label")
@@ -126,11 +130,48 @@
             label.append(" elementos")
 
             // Agrega el modal de registro de productos, cargamos desde el php
-            $("#agregarProducto").click(function () {
-                $("#container").load("../vistas/modal.php");
-            });
+            // $("#agregarProducto").click(function () {
+            //     $("#container").load("../vistas/modal.php");
+            // });
             // Agrega los elementos de la tabla a la tabla de registro
 
+        }
+
+        $(document).ready(OnReady);
+
+        $("#boton_registro").ready(function () {
+            console.log("ready")
+        });
+
+        $("#boton_registro").click(async (e) => {
+            e.preventDefault();
+            console.log("click")
+            try {
+                console.log("try")
+                let response = await fetch([url, base_path, 'controlador/registro_productos.php'].join('/'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    //TODO Esto hay que revisarlo. Estos valores se sacan desde el modal.
+                    body: JSON.stringify({
+                        producto: $("#producto").val(),
+                        proveedor: $("#proveedor").val(),
+                        precio_adq: $("#precio_adq").val(),
+                        precio_venta: $("#precio_venta").val(),
+                        fecha_ingreso: $("#fecha_ingreso").val(),
+                        fecha_caducidad: $("#fecha_caducidad").val(),
+                        categoria: $("#categoria").val(),
+                        cantidad: $("#cantidad").val(),
+                        codigo_barra: $("#codigo_barra").val()
+                    })
+                });
+                let data = await response.text();
+                console.log(data);
+            } catch (error) {
+                console.log("Error al registrar producto")
+                alert("Error al registrar producto")
+            }
         });
     </script>
 </body>

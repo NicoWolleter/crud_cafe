@@ -1,8 +1,8 @@
 <?php
 include "../modelo/conexion.php";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["boton_registro"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verificar si el formulario ha sido enviado y el botón de registro se ha presionado
+    echo $_POST["producto"];
 
     if (
         !empty($_POST["producto"]) &&

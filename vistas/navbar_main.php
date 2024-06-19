@@ -9,18 +9,18 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo './productos.php'; ?>">Gestión de
+                    <a class="nav-link" href="<?php echo 'rutas/productos.php'; ?>">Gestión de
                         Inventario</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo './proveedores.php'; ?>">Gestión de
+                    <a class="nav-link" href="<?php echo 'rutas/proveedores.php'; ?>">Gestión de
                         Proovedores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo './ventas.php ' ?>">Ventas</a>
+                    <a class="nav-link" href="<?php echo 'rutas/ventas.php ' ?>">Ventas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo './registros.php ' ?>">Ventas
+                    <a class="nav-link" href="<?php echo 'rutas/registros.php ' ?>">Ventas
                         registradas</a>
                 </li>
                 <li class="nav-item">
