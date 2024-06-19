@@ -74,8 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <tbody>
                         <?php
                         include "../modelo/conexion.php";
+                        $conexion = getConnection();
                         $sql = $conexion->query("SELECT * FROM proveedores");
-                        while ($datos = $sql->fetch_object()) { ?>
+                        while ($datos = $sql->fetch(PDO::FETCH_OBJ)) { ?>
                             <tr>
                                 <td><?= $datos->id_proveedor ?></td>
                                 <td><?= $datos->nombre_proveedor ?></td>
