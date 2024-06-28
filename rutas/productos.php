@@ -15,6 +15,7 @@
 <body>
     <!-- Barra de navegación -->
     <?php
+    include "../modelo/conexion.php";
     include "../vistas/navbar.php";
     ?>
 
