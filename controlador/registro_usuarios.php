@@ -1,43 +1,47 @@
 <?php
 // Procesar el formulario cuando se envíe
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    echo($_SERVER['DOCUMENT_ROOT'] . "/modelo/conexion.php");
     // Incluir el archivo de conexión a la base de datos
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/modelo/conexion.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/crud_php/modelo/conexion.php";
 
-    // Obtener los datos del formulario
-    $nombre_usuario = $_POST['nombre_usuario'];
-    $correo_usuario = $_POST['correo_usuario'];
-    $rol_usuario = $_POST['rol_usuario'];
-    $password_usuario = $_POST['password_usuario'];
-    $fecha_registro = date("Y-m-d H:i:s");
+    $dataFrom=[
+        'nombre_usuario' =>  $_POST['nombre_usuario'],
+        'correo_usuario' =>$_POST['correo_usuario'],
+        'rol_usuario' => $_POST['rol_usuario'],
+        'password_usuario' =>  $_POST['password_usuario'],
+        'fecha_registro' => date('Y-m-d')
+    ];
 
     // Verificar si el nombre de usuario y el correo ya existen en la base de datos
     $sql_check = "SELECT * FROM usuarios WHERE nombre_usuario = ? OR correo_usuario = ?";
     $stmt = $conexion->prepare($sql_check);
-    $stmt->bind_param("ss", $nombre_usuario, $correo_usuario);
+    $stmt->bind_param("ss", $dataFrom['nombre_usuario'],  $dataFrom['correo_usuario']);
     $stmt->execute();
     $result = $stmt->get_result();
+
 
     if ($result->num_rows > 0) {
         echo "<p class='text-danger'>El nombre de usuario o correo electrónico ya están registrados.</p>";
     } else {
         // Verificar la fortaleza de la contraseña
-        $uppercase = preg_match('@[A-Z]@', $password_usuario);
-        $lowercase = preg_match('@[a-z]@', $password_usuario);
-        $number    = preg_match('@[0-9]@', $password_usuario);
-        $specialChars = preg_match('@[^\w]@', $password_usuario);
+        $uppercase = preg_match('@[A-Z]@', $dataFrom['password_usuario']);
+        $lowercase = preg_match('@[a-z]@', $dataFrom['password_usuario']);
+        $number    = preg_match('@[0-9]@', $dataFrom['password_usuario']);
+        $specialChars = preg_match('@[^\w]@', $dataFrom['password_usuario']);
 
-        if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password_usuario) < 8) {
+
+        if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($dataFrom['password_usuario']) < 8) {
             echo "<p class='text-danger'>La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales.</p>";
         } else {
             // Insertar el usuario en la base de datos
             $sql_insert = "INSERT INTO usuarios (nombre_usuario, correo_usuario, rol_usuario, password_usuario, fecha_registro) VALUES (?, ?, ?, ?, ?)";
             $stmt_insert = $conexion->prepare($sql_insert);
-            $stmt_insert->bind_param("sssss", $nombre_usuario, $correo_usuario, $rol_usuario, $password_usuario, $fecha_registro);
+            $stmt_insert->bind_param("sssss", $dataFrom['nombre_usuario'], $dataFrom['correo_usuario'], $dataFrom['rol_usuario'], $dataFrom['password_usuario'], $dataFrom['fecha_registro']);
 
             if ($stmt_insert->execute()) {
                 // Usuario registrado exitosamente, redirigir a login.php
-                header("Location: login.php");
+                header("Location: ../main.php");
                 exit();
             } else {
                 echo "<p class='text-danger'>Error al registrar el usuario.</p>";

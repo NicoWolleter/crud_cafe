@@ -1,6 +1,5 @@
 <?php
-function getConnection()
-{
+
     require_once 'configs.php';
     try {
 
@@ -18,10 +17,11 @@ function getConnection()
         $password = '';
         $conexion = new PDO("mysql:host=localhost;dbname=crud_php", $user, $password);
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $conexion;
+        echo("funciono");   
+
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
         die();
     }
-}
+
 ?>
